@@ -1,23 +1,24 @@
-Board board;
-Game game;
-void setup() {
-  surface.setSize(450, 300);
-  board = new Board();
-  game = new Game();
-  background(0);
-}
+class Game {
+  String getJankenResult(String hand) {
+    String cpuHand = this.desideCpuHand();
 
-void draw() {
-  board.updateSelectArea();
-  board.updateCommentArea("Choose Your Hand");
-}
+    if (hand.equals("Gu") && cpuHand.equals("Gu") 
+      || hand.equals("Choki") && cpuHand.equals("Choki") 
+      || hand.equals("Pa") && cpuHand.equals("Pa")) return "Draw";
+    else if (hand.equals("Gu") && cpuHand.equals("Choki")
+      || hand.equals("Choki") && cpuHand.equals("Pa")
+      || hand.equals("Pa") && cpuHand.equals("Gu")) return "You Win!";
+    else if (hand.equals("Gu") && cpuHand.equals("Pa")
+      || hand.equals("Choki") && cpuHand.equals("Gu")
+      || hand.equals("Pa") && cpuHand.equals("Choki")) return "CPU Win!";
 
-void mouseReleased() {
-  if (mouseX>=0 && mouseX <= 150 && mouseY >=0 && mouseY <= 150) {
-    board.updateResultArea(game.getJankenResult("Gu"));
-  } else if (mouseX>150 && mouseX <= 300 && mouseY >=0 && mouseY <= 150) {
-    board.updateResultArea(game.getJankenResult("Choki"));
-  } else if (mouseX>300 && mouseX <= 450 && mouseY >=0 && mouseY <= 150) {
-    board.updateResultArea(game.getJankenResult("Pa"));
+    return null;
+  }
+
+  String desideCpuHand() {
+    int cpuHandNum = (int)random(3);
+    if (cpuHandNum == 0) return "Gu";
+    else if (cpuHandNum == 1) return "Choki";
+    else return "Pa";
   }
 }
